@@ -52,11 +52,12 @@ class SearchAlgorithm:
 
     def __init__(self, problem):
         self.start = Node(problem)
-        self.visitedStates = set()
 
     def bfs(self):
+        visitedStates = set()
         frontier = queue.Queue()
         frontier.put(self.start)
+        visitedStates.add(str(self.start.state.state))
         stop = False
         while not stop:
             if frontier.empty():
@@ -64,12 +65,32 @@ class SearchAlgorithm:
             curr_node = frontier.get()
             if curr_node.goal_state():
                 stop = True
-                # Statistics print
                 return curr_node
 
             successors = curr_node.successor()
             while not successors.empty():
                 successor = successors.get()
-                if successor.state not in self.visitedStates:
+                if str(successor.state.state) not in visitedStates:
                     frontier.put(successor)
-                    self.visitedStates.add(successor.state)
+                    visitedStates.add(str(successor.state.state))
+
+    def dfs(self):
+        visitedStates = set()
+        frontier = []
+        frontier.append(self.start)
+        visitedStates.add(str(self.start.state.state))
+        stop = False
+        while not stop:
+            if not frontier:
+                return None
+            curr_node = frontier.pop()
+            if curr_node.goal_state():
+                stop = True
+                return curr_node
+
+            successors = curr_node.successor()
+            while not successors.empty():
+                successor = successors.get()
+                if str(successor.state.state) not in visitedStates:
+                    frontier.append(successor)
+                    visitedStates.add(str(successor.state.state))

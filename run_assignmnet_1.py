@@ -25,6 +25,16 @@ def main():
     goal_node.state.pretty_print()
     print('Time: ', end - start)
     goal_node.pretty_print_solution(True)
+    print('DFS')
+    print('Start state: ')
+    mc.pretty_print()
+    start = time.process_time()
+    goal_node = sa.dfs()
+    end = time.process_time()
+    print('goal state: ')
+    goal_node.state.pretty_print()
+    print('Time: ', end - start)
+    goal_node.pretty_print_solution(True)
 
 
 if __name__ == "__main__":
