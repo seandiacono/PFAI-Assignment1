@@ -86,13 +86,13 @@ class SearchAlgorithm:
                 #=======*
                 return curr_node
             
-            #=======
-            self.nodes+=1
-            #=======*
 
             successors = curr_node.successor()
             while not successors.empty():
                 successor = successors.get()
+                #=======
+                self.nodes+=1
+                #=======*
                 if successor.state not in self.visitedStates:
                     frontier.put(successor)
                     self.visitedStates.add(successor.state)

@@ -18,8 +18,6 @@ def main():
     print('Start state: ')
     mc.pretty_print()
     solution = sa.bfs(statistics=True)
-    solution.pretty_print_solution(verbose=False)
-    solution.pretty_print_solution()
 
 
 if __name__ == "__main__":
