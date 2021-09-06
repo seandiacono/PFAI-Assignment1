@@ -5,6 +5,7 @@ Author: Tony Lindgren
 '''
 
 import queue
+import time
 
 
 class Node:
@@ -52,9 +53,29 @@ class SearchAlgorithm:
 
     def __init__(self, problem):
         self.start = Node(problem)
+<<<<<<< HEAD
+        self.visitedStates = set()
+        self.elapsed_time = 0.0
+        self.nodes = 0
+    
+    #=======
+    def statistics(self, curr_node):
+            print('----------------------------')
+            print('Elapsed time (s): ', self.elapsed_time)
+            print('Solution found at depth: ', curr_node.depth)
+            print('Number of nodes explored: ', self.nodes)
+            print('Cost of solution: ', curr_node.cost)
+            print('Estimated effective branching factor: ', self.nodes**(1/curr_node.depth))
+            print('----------------------------')
+    #=======*
+
+    def bfs(self, statistics=False):
+        start_time = time.process_time()
+=======
 
     def bfs(self):
         visitedStates = set()
+>>>>>>> main
         frontier = queue.Queue()
         frontier.put(self.start)
         visitedStates.add(str(self.start.state.state))
@@ -65,11 +86,30 @@ class SearchAlgorithm:
             curr_node = frontier.get()
             if curr_node.goal_state():
                 stop = True
+<<<<<<< HEAD
+                #=======
+                self.elapsed_time = time.process_time() - start_time
+                if statistics:
+                    self.statistics(curr_node)
+                #=======*
+=======
+>>>>>>> main
                 return curr_node
+            
 
             successors = curr_node.successor()
             while not successors.empty():
                 successor = successors.get()
+<<<<<<< HEAD
+                #=======
+                self.nodes+=1
+                #=======*
+                if successor.state not in self.visitedStates:
+                    frontier.put(successor)
+                    self.visitedStates.add(successor.state)
+
+        
+=======
                 if str(successor.state.state) not in visitedStates:
                     frontier.put(successor)
                     visitedStates.add(str(successor.state.state))
@@ -94,3 +134,4 @@ class SearchAlgorithm:
                 if str(successor.state.state) not in visitedStates:
                     frontier.append(successor)
                     visitedStates.add(str(successor.state.state))
+>>>>>>> main
