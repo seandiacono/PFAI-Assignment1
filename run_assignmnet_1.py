@@ -24,7 +24,7 @@ def main():
     print('goal state: ')
     goal_node.state.pretty_print()
     print('Time: ', end - start)
-    goal_node.pretty_print_solution(True)
+    goal_node.pretty_print_solution(verbose=True)
     print('DFS')
     print('Start state: ')
     mc.pretty_print()
@@ -34,7 +34,7 @@ def main():
     print('goal state: ')
     goal_node.state.pretty_print()
     print('Time: ', end - start)
-    goal_node.pretty_print_solution(True)
+    goal_node.pretty_print_solution(verbose=True)
 
 
 if __name__ == "__main__":
