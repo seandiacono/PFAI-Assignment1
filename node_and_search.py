@@ -53,6 +53,7 @@ class SearchAlgorithm:
 
     def __init__(self, problem):
         self.start = Node(problem)
+<<<<<<< HEAD
         self.visitedStates = set()
         self.elapsed_time = 0.0
         self.nodes = 0
@@ -70,8 +71,14 @@ class SearchAlgorithm:
 
     def bfs(self, statistics=False):
         start_time = time.process_time()
+=======
+
+    def bfs(self):
+        visitedStates = set()
+>>>>>>> main
         frontier = queue.Queue()
         frontier.put(self.start)
+        visitedStates.add(str(self.start.state.state))
         stop = False
         while not stop:
             if frontier.empty():
@@ -79,17 +86,21 @@ class SearchAlgorithm:
             curr_node = frontier.get()
             if curr_node.goal_state():
                 stop = True
+<<<<<<< HEAD
                 #=======
                 self.elapsed_time = time.process_time() - start_time
                 if statistics:
                     self.statistics(curr_node)
                 #=======*
+=======
+>>>>>>> main
                 return curr_node
             
 
             successors = curr_node.successor()
             while not successors.empty():
                 successor = successors.get()
+<<<<<<< HEAD
                 #=======
                 self.nodes+=1
                 #=======*
@@ -98,3 +109,29 @@ class SearchAlgorithm:
                     self.visitedStates.add(successor.state)
 
         
+=======
+                if str(successor.state.state) not in visitedStates:
+                    frontier.put(successor)
+                    visitedStates.add(str(successor.state.state))
+
+    def dfs(self):
+        visitedStates = set()
+        frontier = []
+        frontier.append(self.start)
+        visitedStates.add(str(self.start.state.state))
+        stop = False
+        while not stop:
+            if not frontier:
+                return None
+            curr_node = frontier.pop()
+            if curr_node.goal_state():
+                stop = True
+                return curr_node
+
+            successors = curr_node.successor()
+            while not successors.empty():
+                successor = successors.get()
+                if str(successor.state.state) not in visitedStates:
+                    frontier.append(successor)
+                    visitedStates.add(str(successor.state.state))
+>>>>>>> main
