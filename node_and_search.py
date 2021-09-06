@@ -5,6 +5,7 @@ Author: Tony Lindgren
 '''
 
 import queue
+import time
 
 
 class Node:
@@ -53,8 +54,22 @@ class SearchAlgorithm:
     def __init__(self, problem):
         self.start = Node(problem)
         self.visitedStates = set()
+        self.elapsed_time = 0.0
+        self.nodes = 0
+    
+    #=======
+    def statistics(self, curr_node):
+            print('----------------------------')
+            print('Elapsed time (s): ', self.elapsed_time)
+            print('Solution found at depth: ', curr_node.depth)
+            print('Number of nodes explored: ', self.nodes)
+            print('Cost of solution: ', curr_node.cost)
+            print('Estimated effective branching factor: ', self.nodes**(1/curr_node.depth))
+            print('----------------------------')
+    #=======*
 
-    def bfs(self):
+    def bfs(self, statistics=False):
+        start_time = time.process_time()
         frontier = queue.Queue()
         frontier.put(self.start)
         stop = False
@@ -64,8 +79,16 @@ class SearchAlgorithm:
             curr_node = frontier.get()
             if curr_node.goal_state():
                 stop = True
-                # Statistics print
+                #=======
+                self.elapsed_time = time.process_time() - start_time
+                if statistics:
+                    self.statistics(curr_node)
+                #=======*
                 return curr_node
+            
+            #=======
+            self.nodes+=1
+            #=======*
 
             successors = curr_node.successor()
             while not successors.empty():
@@ -73,3 +96,5 @@ class SearchAlgorithm:
                 if successor.state not in self.visitedStates:
                     frontier.put(successor)
                     self.visitedStates.add(successor.state)
+
+        
