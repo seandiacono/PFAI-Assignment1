@@ -17,27 +17,23 @@ def main():
     print('BFS')
     print('Start state: ')
     mc.pretty_print()
-<<<<<<< HEAD
-    solution = sa.bfs(statistics=True)
-=======
-    start = time.process_time()
-    goal_node = sa.bfs()
-    end = time.process_time()
+    goal_node = sa.bfs(statistics=True, visited_states=True)
     print('goal state: ')
     goal_node.state.pretty_print()
-    print('Time: ', end - start)
-    goal_node.pretty_print_solution(verbose=True)
-    print('DFS')
+    # goal_node.pretty_print_solution(verbose=True)
+    # print('DFS')
+    # print('Start state: ')
+    # mc.pretty_print()
+    # goal_node = sa.dfs(statistics=True, visited_states=True)
+    # print('goal state: ')
+    # goal_node.state.pretty_print()
+    print('IDS')
     print('Start state: ')
     mc.pretty_print()
-    start = time.process_time()
-    goal_node = sa.dfs()
-    end = time.process_time()
+    goal_node = sa.ids(statistics=False, visited_states=True)
     print('goal state: ')
     goal_node.state.pretty_print()
-    print('Time: ', end - start)
-    goal_node.pretty_print_solution(verbose=True)
->>>>>>> main
+    # goal_node.pretty_print_solution(verbose=True)
 
 
 if __name__ == "__main__":

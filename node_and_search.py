@@ -53,7 +53,6 @@ class SearchAlgorithm:
 
     def __init__(self, problem):
         self.start = Node(problem)
-<<<<<<< HEAD
         self.visitedStates = set()
         self.elapsed_time = 0.0
         self.nodes = 0
@@ -61,7 +60,7 @@ class SearchAlgorithm:
     #=======
     def statistics(self, curr_node):
             print('----------------------------')
-            print('Elapsed time (s): ', self.elapsed_time)
+            print('Elapsed time (s): {:.4f}'.format(self.elapsed_time))
             print('Solution found at depth: ', curr_node.depth)
             print('Number of nodes explored: ', self.nodes)
             print('Cost of solution: ', curr_node.cost)
@@ -69,16 +68,15 @@ class SearchAlgorithm:
             print('----------------------------')
     #=======*
 
-    def bfs(self, statistics=False):
+    def bfs(self, statistics=False, visited_states=True):
+        self.nodes = 0
         start_time = time.process_time()
-=======
-
-    def bfs(self):
-        visitedStates = set()
->>>>>>> main
         frontier = queue.Queue()
+        self.nodes += 1
         frontier.put(self.start)
-        visitedStates.add(str(self.start.state.state))
+        if visited_states:
+            visitedStates = set()
+            visitedStates.add(str(self.start.state.state))
         stop = False
         while not stop:
             if frontier.empty():
@@ -86,39 +84,43 @@ class SearchAlgorithm:
             curr_node = frontier.get()
             if curr_node.goal_state():
                 stop = True
-<<<<<<< HEAD
                 #=======
                 self.elapsed_time = time.process_time() - start_time
                 if statistics:
                     self.statistics(curr_node)
                 #=======*
-=======
->>>>>>> main
                 return curr_node
             
 
             successors = curr_node.successor()
             while not successors.empty():
                 successor = successors.get()
-<<<<<<< HEAD
-                #=======
-                self.nodes+=1
-                #=======*
-                if successor.state not in self.visitedStates:
+                if visited_states:
+                    if str(successor.state.state) not in visitedStates:
+                        frontier.put(successor)
+                        #=======
+                        self.nodes+=1
+                        #=======*
+                        visitedStates.add(str(successor.state.state))
+                else:
                     frontier.put(successor)
-                    self.visitedStates.add(successor.state)
+                    #=======
+                    self.nodes+=1
+                    #=======*
 
-        
-=======
-                if str(successor.state.state) not in visitedStates:
-                    frontier.put(successor)
-                    visitedStates.add(str(successor.state.state))
 
-    def dfs(self):
-        visitedStates = set()
+    def dfs(self, statistics=False, visited_states=True, max_depth=None):
+        self.nodes = 0  
+        start_time = time.process_time()   
+
         frontier = []
+        self.nodes += 1
         frontier.append(self.start)
-        visitedStates.add(str(self.start.state.state))
+
+        if visited_states:
+            visitedStates = set() 
+            visitedStates.add(str(self.start.state.state))
+            
         stop = False
         while not stop:
             if not frontier:
@@ -126,12 +128,34 @@ class SearchAlgorithm:
             curr_node = frontier.pop()
             if curr_node.goal_state():
                 stop = True
+                self.elapsed_time = time.process_time() - start_time
+                if statistics:
+                    self.statistics(curr_node)
                 return curr_node
+            elif max_depth != None and curr_node.depth > max_depth:
+                continue
 
             successors = curr_node.successor()
             while not successors.empty():
                 successor = successors.get()
-                if str(successor.state.state) not in visitedStates:
+                if visited_states:
+                    if str(successor.state.state) not in visitedStates:
+                        frontier.append(successor)
+                        #=======
+                        self.nodes+=1
+                        #=======*
+                        visitedStates.add(str(successor.state.state))
+                else:
                     frontier.append(successor)
-                    visitedStates.add(str(successor.state.state))
->>>>>>> main
+                    #=======
+                    self.nodes+=1
+                    #=======*
+
+    def ids(self, statistics=False, visited_states=False):
+        depth = 0
+        while True:
+            result = self.dfs(statistics, visited_states, depth)
+            if result != None:
+                return result
+            else:
+                depth+=1
